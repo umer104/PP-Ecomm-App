@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 890201739270.dkr.ecr.us-east-1.amazonaws.com)
+      - REPOSITORY_URI=890201739270.dkr.ecr.us-east-1.amazonaws.com/ecr-repo-nafi
+
+  build:
+    commands:
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:latest
+
+  post_build:
+    commands:
+      - echo Pushing the Docker image...
+      - docker push $REPOSITORY_URI:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"my-container","imageUri":"%s:latest"}]' $REPOSITORY_URI > imagedefinitions.json
+
+artifacts:
+  files: imagedefinitions.json
