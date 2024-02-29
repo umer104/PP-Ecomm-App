@@ -4,8 +4,8 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 890201739270.dkr.ecr.ap-northeast-1.amazonaws.com
-      - REPOSITORY_URI=890201739270.dkr.ecr.ap-northeast-1.amazonaws.com/ecr-repo-nafi
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 890201739270.dkr.ecr.us-east-1.amazonaws.com
+      - REPOSITORY_URI=890201739270.dkr.ecr.us-east-1.amazonaws.com/ecr-repo-nafi
 
 
   build:
